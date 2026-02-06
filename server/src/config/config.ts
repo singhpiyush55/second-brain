@@ -9,12 +9,7 @@ export async function connect(){
     }
 }
 
-const userSchema = new mongoose.Schema({
-    username: {type: String, unique: true},
-    password: {type: String}
-});
-
-const contentType = ['images', 'video', 'articl', 'audio'];
+const contentType = ['images', 'video', 'article', 'audio'];
 const contentSchema = new mongoose.Schema({
     link: {type: String},
     type: {type: String, enum: contentType, required: true},
@@ -32,7 +27,6 @@ const linkSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
-export const User = mongoose.model('User', userSchema);
 export const Content = mongoose.model('Content', contentSchema);
 export const Tag = mongoose.model('Tag', tagsSchema);
 export const Link = mongoose.model('Link', linkSchema);

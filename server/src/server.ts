@@ -1,7 +1,7 @@
 
 import express from "express";
 import { Router } from "express";
-import userRoute from "./userRoute/user.js"
+import userRoute from "./routes/user.route.js"
 import {connect} from "./config/config.js"
 import dotenv from "dotenv";
 dotenv.config();
