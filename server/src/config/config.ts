@@ -9,24 +9,12 @@ export async function connect(){
     }
 }
 
-const contentType = ['images', 'video', 'article', 'audio'];
-const contentSchema = new mongoose.Schema({
-    link: {type: String},
-    type: {type: String, enum: contentType, required: true},
-    title: {type: String, required: true},
-    tags: {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true} 
-});
 
-const tagsSchema = new mongoose.Schema({
-    title: {type: String, unique: true, required: true}
-});
+
 
 const linkSchema = new mongoose.Schema({
     hash: {type: String},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
-export const Content = mongoose.model('Content', contentSchema);
-export const Tag = mongoose.model('Tag', tagsSchema);
 export const Link = mongoose.model('Link', linkSchema);

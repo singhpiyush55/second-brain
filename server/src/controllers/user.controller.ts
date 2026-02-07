@@ -28,7 +28,7 @@ export const signup = async(req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const token = await loginService(req.body);
-        console.log(token);
+        res.json({ token });
     } catch (error) {
         if(error instanceof ZodError) {
             res.status(400).json({
