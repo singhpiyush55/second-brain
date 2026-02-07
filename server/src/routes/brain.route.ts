@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { generateShareLink } from "../controllers/brain.controller.js";
+import { generateShareLink, shareContent } from "../controllers/brain.controller.js";
 const router = Router();
 
 // /brain route will handle the sharing part. 
@@ -9,5 +9,6 @@ const router = Router();
 
 // Body will have the content id and auth will provide the user id.
 router.post('/share', authMiddleware, generateShareLink);
+router.get('/share/:shareId', shareContent);
 
 export default router;
