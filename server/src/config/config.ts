@@ -9,9 +9,6 @@ export async function connect(){
     }
 }
 
-
-
-
 const linkSchema = new mongoose.Schema({
     hash: {type: String},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
