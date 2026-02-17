@@ -11,12 +11,7 @@ const shareSchema = new mongoose.Schema({
         required: true, 
         unique: true 
     },
-    createdAt: { 
-        type: Date, 
-        default: Date.now 
-    },
-    expiresAt: Date
-});
+}, { timestamps: true });
 
 const Share = mongoose.model('Share', shareSchema);
 export default Share;

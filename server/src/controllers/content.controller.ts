@@ -1,6 +1,12 @@
 import type { Request, Response } from "express";
 import { ZodError } from "zod";
-import { addContentService, getAllContentForUserService, deleteContentForUserService} from "../services/content.service.js";
+import { 
+    addContentService, 
+    getAllContentForUserService, 
+    deleteContentForUserService, 
+    addContentToBrainService, 
+    getAllContentForUserForBrainService
+} from "../services/content.service.js";
 
 export const addContent = async (req: Request, res: Response) => {
     try{
@@ -12,6 +18,43 @@ export const addContent = async (req: Request, res: Response) => {
         });
     } catch (error: any) {
          // Zod validation error
+        if (error instanceof ZodError) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation failed",
+                errors: error
+            });
+        }
+
+        // Custom business errors
+        if (error.message === "Tag title is required") {
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        // Default / unknown error
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error"
+        });
+    }
+}
+export const addContentToBrain = async (req: Request, res: Response) => {
+    try{
+        const brainId = req.params.brainId as string;
+        console.log("Received brainId in controller: ", brainId);
+        if (!brainId) {
+            return res.status(400).json({ message: "brainId is required" });
+        }
+        const contentData = await addContentToBrainService(req.body, (req as any).user, brainId);
+        res.status(201).json({ 
+            success: true,
+            content: contentData
+        });
+    } catch (error: any) {
+        // Zod validation error
         if (error instanceof ZodError) {
             return res.status(400).json({
                 success: false,
@@ -51,7 +94,25 @@ export const getAllContentForUser = async (req: Request, res: Response) => {
         });
     }
 }
-
+export const getAllContentForUserForBrain = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.userId;
+        const brainId = req.params.brainId;
+        if (!brainId) {
+            return res.status(400).json({ message: "brainId is required" });
+        }
+        const contentList = await getAllContentForUserForBrainService(userId, brainId);
+        res.json({
+            success: true,
+            content: contentList
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error"
+        });
+    }
+}
 export const deleteContentForUser = async (req: Request, res: Response) => {
     try {
         const contentId = req.params.id;
@@ -72,3 +133,4 @@ export const deleteContentForUser = async (req: Request, res: Response) => {
         });
     }   
 }
+

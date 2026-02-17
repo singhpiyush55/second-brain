@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { is } from "zod/locales";
 
 const contentType = ['images', 'video', 'article', 'audio', 'document', 'tweet', 'youtube', 'link'];
 const contentSchema = new mongoose.Schema({
@@ -8,6 +7,9 @@ const contentSchema = new mongoose.Schema({
     title: {type: String, required: true},
     tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+
+    // If this belongs to a brain, then brainId will have the id of that brain, else it will be null.
+    brainId: {type: mongoose.Schema.Types.ObjectId, ref: 'Brain', default: null}
 });
 
 const Content = mongoose.model('Content', contentSchema);

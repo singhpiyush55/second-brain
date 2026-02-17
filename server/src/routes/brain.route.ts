@@ -1,9 +1,13 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { generateShareLink, shareContent } from "../controllers/brain.controller.js";
+import { addBrain, getBrains } from "../controllers/brain.controller.js";
+
 const router = Router();
 
-router.post('/share', authMiddleware, generateShareLink);
-router.get('/share/:shareId', shareContent);
+// POST endpoint to create a new brain  
+router.post('/', authMiddleware, addBrain);
+
+// GET endpoint to retrieve all brains for a user
+router.get('/', authMiddleware, getBrains);
 
 export default router;

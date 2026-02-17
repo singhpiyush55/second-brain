@@ -54,14 +54,63 @@ export const addContentService = async (contentData: {
     }
 }
 
+export const addContentToBrainService = async (contentData: {
+    link: string,
+    type: "document" | "tweet" | "youtube" | "link",
+    title: string,
+    tags: string[]
+}, user: { userId: string }, brainId: string) => {
+    try{
+        // This confirms that user have given correct data. 
+        const validatedData = validateContentData(contentData);
+        // Now we have to prepare the data to be saved in database. 
+        // Add the user id.
+        // Add the tag id. Search for the tag in database, if not found, create a new tag and get the id.
+        const tagTitle = validatedData.tags[0]; 
+        const userId = user.userId; 
+        if (!tagTitle) {
+           throw new Error("Tag title is required");
+        }
+        let tag = await Tag.findOne({ title: tagTitle });
+        if (!tag) {
+            tag = new Tag({ title: tagTitle });
+            await tag.save();
+        }
+        console.log("brainId:", brainId);
+        const content = new Content({
+            link: validatedData.link,
+            type: validatedData.type,
+            title: validatedData.title,
+            tags: [tag._id], 
+            userId: userId,
+            brainId: brainId
+        });
+        const savedContent = await content.save();
+        console.log("Content added to brain successfully: ", savedContent);
+        return savedContent;
+    } catch (error) {
+        // Don't throw new error, just throw original, controller will handle it and send response to user.
+        throw error;
+    }
+}
+
 export const getAllContentForUserService = async (userId: string) => {
     try {
-        const contentList = await Content.find({ userId: userId }).populate('tags', 'title');
+        const contentList = await Content.find({ userId: userId, brainId: null }).populate('tags', 'title');
         return contentList;
     } catch (error) {
         throw error;
     }   
 }
+
+export const getAllContentForUserForBrainService = async (userId: string, brainId: string) => {
+    try {
+        const contentList = await Content.find({ userId: userId, brainId: brainId }).populate('tags', 'title');
+        return contentList; 
+    } catch (error) {
+        throw error;
+    }   
+}   
 
 export const deleteContentForUserService = async (contentId: string, userId: string) => {
     try {
