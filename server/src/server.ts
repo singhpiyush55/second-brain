@@ -19,6 +19,10 @@ app.use(cors({
   origin: ["http://localhost:5173", "https://second-brain-knowledge-store.vercel.app"],
   credentials: true
 }));
+
+// For render
+app.set("trust proxy", 1);
+
 app.use(cookieParser());
 
 app.get('/', (req, res)=>{
