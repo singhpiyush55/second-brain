@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://second-brain-jrwb.onrender.com/api/:path*"
+    }
+  ]
+}
