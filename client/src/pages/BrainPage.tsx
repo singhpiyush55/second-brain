@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useBrain } from "../context/BrainContext";
 import * as brainService from "../services/brain.service";
-
-const typeIcons: Record<string, string> = {
-  link: "🔗",
-  document: "📄",
-  tweet: "🐦",
-  youtube: "▶️",
-};
+import { typeIconMap, LinkIcon, LoadingIcon, BrainIcon } from "../icons";
 
 const typeColors: Record<string, { bg: string; text: string }> = {
   link: { bg: "#eff6ff", text: "#3b82f6" },
@@ -117,7 +111,7 @@ export default function BrainPage() {
       {shareLink && (
         <div style={styles.sharePopup}>
           <div style={styles.sharePopupHeader}>
-            <div style={styles.sharePopupIcon}>🔗</div>
+            <div style={styles.sharePopupIcon}><LinkIcon size={24} /></div>
             <div>
               <h3 style={styles.sharePopupTitle}>Brain shared!</h3>
               <p style={styles.sharePopupDesc}>Anyone with this link can view this brain</p>
@@ -171,12 +165,12 @@ export default function BrainPage() {
 
       {loading && content.length === 0 ? (
         <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>⏳</div>
+          <div style={styles.emptyIcon}><LoadingIcon size={48} color="var(--color-text-tertiary)" /></div>
           <p style={styles.emptyTitle}>Loading content...</p>
         </div>
       ) : content.length === 0 ? (
         <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>🧠</div>
+          <div style={styles.emptyIcon}><BrainIcon size={48} color="var(--color-text-tertiary)" /></div>
           <p style={styles.emptyTitle}>This brain is empty</p>
           <p style={styles.emptyDesc}>
             Add some content to this brain using the "Add Content" button above.
@@ -196,7 +190,7 @@ export default function BrainPage() {
                       color: colors.text,
                     }}
                   >
-                    {typeIcons[item.type] || "🔗"} {item.type}
+                    {(() => { const Icon = typeIconMap[item.type] || LinkIcon; return <Icon size={14} />; })()} {item.type}
                   </div>
                   <button
                     onClick={() => deleteContent(item._id)}

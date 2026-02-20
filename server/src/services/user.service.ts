@@ -71,6 +71,6 @@ export const verifyTokenService = (token: string) => {
         const userDetails = User.findById(userId).select("-password");
         return userDetails;
     } catch (error) {
-        return null;
+        return error;
     }   
 }

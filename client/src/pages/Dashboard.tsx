@@ -1,12 +1,6 @@
 import { useEffect } from "react";
 import { useBrain } from "../context/BrainContext";
-
-const typeIcons: Record<string, string> = {
-  link: "🔗",
-  document: "📄",
-  tweet: "🐦",
-  youtube: "▶️",
-};
+import { typeIconMap, LinkIcon, LoadingIcon, InboxEmptyIcon } from "../icons";
 
 const typeColors: Record<string, { bg: string; text: string }> = {
   link: { bg: "#eff6ff", text: "#3b82f6" },
@@ -38,12 +32,12 @@ export default function Dashboard() {
 
       {loading && rootContent.length === 0 ? (
         <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>⏳</div>
+          <div style={styles.emptyIcon}><LoadingIcon size={48} color="var(--color-text-tertiary)" /></div>
           <p style={styles.emptyTitle}>Loading your content...</p>
         </div>
       ) : rootContent.length === 0 ? (
         <div style={styles.emptyState}>
-          <div style={styles.emptyIcon}>📭</div>
+          <div style={styles.emptyIcon}><InboxEmptyIcon size={48} color="var(--color-text-tertiary)" /></div>
           <p style={styles.emptyTitle}>No content yet</p>
           <p style={styles.emptyDesc}>
             Click "Add Content" to start saving links, tweets, and more.
@@ -63,7 +57,7 @@ export default function Dashboard() {
                       color: colors.text,
                     }}
                   >
-                    {typeIcons[item.type] || "🔗"} {item.type}
+                    {(() => { const Icon = typeIconMap[item.type] || LinkIcon; return <Icon size={14} />; })()} {item.type}
                   </div>
                   <button
                     onClick={() => deleteContent(item._id)}

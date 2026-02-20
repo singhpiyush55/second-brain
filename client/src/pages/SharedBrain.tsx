@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSharedBrain } from "../services/brain.service";
-
-const typeIcons: Record<string, string> = {
-  link: "🔗",
-  document: "📄",
-  tweet: "🐦",
-  youtube: "▶️",
-};
+import { typeIconMap, LinkIcon, BrainIcon, LoadingIcon, ErrorIcon } from "../icons";
 
 const typeColors: Record<string, { bg: string; text: string }> = {
   link: { bg: "#eff6ff", text: "#3b82f6" },
@@ -41,7 +35,7 @@ export default function SharedBrain() {
     return (
       <div style={styles.page}>
         <div style={styles.center}>
-          <div style={styles.emptyIcon}>⏳</div>
+          <div style={styles.emptyIcon}><LoadingIcon size={48} color="var(--color-text-tertiary)" /></div>
           <p style={styles.loadingText}>Loading shared brain...</p>
         </div>
       </div>
@@ -52,7 +46,7 @@ export default function SharedBrain() {
     return (
       <div style={styles.page}>
         <div style={styles.center}>
-          <div style={styles.emptyIcon}>😕</div>
+          <div style={styles.emptyIcon}><ErrorIcon size={48} color="var(--color-danger)" /></div>
           <p style={styles.errorTitle}>Oops!</p>
           <p style={styles.errorText}>{error}</p>
         </div>
@@ -69,7 +63,7 @@ export default function SharedBrain() {
         <div style={styles.header}>
           <div style={styles.headerTop}>
             <div style={styles.logo}>
-              <span style={{ fontSize: "24px" }}>🧠</span>
+              <BrainIcon size={24} color="var(--color-accent)" />
               <span style={styles.logoText}>Second Brain</span>
             </div>
           </div>
@@ -95,7 +89,7 @@ export default function SharedBrain() {
                     background: colors.bg,
                     color: colors.text,
                   }}>
-                    {typeIcons[item.type] || "🔗"} {item.type}
+                    {(() => { const Icon = typeIconMap[item.type] || LinkIcon; return <Icon size={14} />; })()} {item.type}
                   </div>
                   <h3 style={styles.cardTitle}>{item.title}</h3>
                   <a

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { BrainIcon } from "../icons";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Login() {
         {/* Left branding */}
         <div style={styles.brandPanel}>
           <div>
-            <div style={styles.brandLogo}>🧠</div>
+            <div style={styles.brandLogo}><BrainIcon size={48} color="white" /></div>
             <h2 style={styles.brandTitle}>Second Brain</h2>
             <p style={styles.brandDesc}>
               Your personal knowledge base. Capture ideas, organize thoughts, and never forget

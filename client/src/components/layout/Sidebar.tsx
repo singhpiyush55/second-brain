@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useBrain } from "../../context/BrainContext";
+import { BrainIcon } from "../../icons";
 
 type Props = {
   onOpenCreate: () => void;
@@ -13,7 +14,7 @@ export default function Sidebar({ onOpenCreate }: Props) {
     <aside style={styles.sidebar}>
       {/* Logo */}
       <div style={styles.logoSection} onClick={() => navigate("/dashboard")}>
-        <div style={styles.logoIcon}>🧠</div>
+        <BrainIcon size={24} color="var(--color-accent)" />
         <span style={styles.logoText}>Second Brain</span>
       </div>
 

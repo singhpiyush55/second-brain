@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BrainIcon, PaperclipIcon, FolderIcon, ShareIcon } from "../icons";
 
 export default function Landing() {
   return (
@@ -7,7 +8,7 @@ export default function Landing() {
       <nav style={styles.nav}>
         <div style={styles.navInner}>
           <div style={styles.logo}>
-            <div style={styles.logoIcon}>🧠</div>
+            <BrainIcon size={24} color="var(--color-accent)" />
             <span style={styles.logoText}>Second Brain</span>
           </div>
           <div style={styles.navLinks}>
@@ -47,9 +48,9 @@ export default function Landing() {
         {/* Feature cards */}
         <div style={styles.features}>
           {[
-            { icon: "📎", title: "Save Anything", desc: "Links, tweets, YouTube videos, and documents — all in one place." },
-            { icon: "🗂️", title: "Organize in Brains", desc: "Group related content into themed brains for easy access." },
-            { icon: "🔗", title: "Share Publicly", desc: "Generate a shareable link to let others explore your collections." },
+            { icon: <PaperclipIcon size={28} color="var(--color-accent)" />, title: "Save Anything", desc: "Links, tweets, YouTube videos, and documents — all in one place." },
+            { icon: <FolderIcon size={28} color="var(--color-accent)" />, title: "Organize in Brains", desc: "Group related content into themed brains for easy access." },
+            { icon: <ShareIcon size={28} color="var(--color-accent)" />, title: "Share Publicly", desc: "Generate a shareable link to let others explore your collections." },
           ].map((f, i) => (
             <div key={i} style={styles.featureCard}>
               <div style={styles.featureIcon}>{f.icon}</div>
