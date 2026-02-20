@@ -10,7 +10,7 @@ export const shareBrain = async (req: Request, res: Response) => {
         const userId = (req as any).user.userId; 
         const sharedId = await createShareLinkService(brainId, userId);
         res.json({
-            sharedUrl: `${req.protocol}://${req.get('host')}/api/v1/share/${sharedId}`
+            sharedId: sharedId,
         });
     }catch(error: any){
         if(error.message === 'Brain not found or does not belong to the user'){
@@ -27,7 +27,9 @@ export const getSharedBrainContent = async (req: Request, res: Response) => {
         if(!shareId){
             return res.status(400).json({ error: "Share ID is required" });
         }
+        console.log("Received shareId:", shareId);
         const contents = await getSharedBrainContentService(shareId);
+        console.log("Fetched shared brain content:", contents);
         res.json(contents);
     }catch(error: any){
         if(error.message === 'Shared brain not found'){

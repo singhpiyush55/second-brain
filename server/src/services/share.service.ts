@@ -1,8 +1,6 @@
-import { ca } from "zod/locales";
 import Brain from "../models/brain.modal.js"
 import Share from "../models/share.modal.js";
 import Content from "../models/content.model.js";
-import bcrypt from "bcrypt";
 
 export const createShareLinkService = async (brainId: string, userId: string) => {
     try{
@@ -12,13 +10,18 @@ export const createShareLinkService = async (brainId: string, userId: string) =>
         if (!brain) {
             throw new Error('Brain not found or does not belong to the user');
         }
-        // Generate a random shareId
-        const shareId = bcrypt.hashSync(brainId + userId + Date.now().toString(), 10);
-        // Save the share link in the Share model
-        const share = new Share({
-            brainId,
-            shareId
-        });
+        // Check if a share link already exists for this brain
+        let share = await Share.findOne({ brainId });
+        if (share) {
+            return share.shareId; // Return existing shareId if already shared
+        }else{
+            // Generate a new shareId and create a new share document
+            const shareId = generateRandomString(Math.floor(Math.random() * (12 - 8 + 1)) + 8);
+            share = new Share({
+                brainId,
+                shareId
+            });
+        }
         const savedShare = await share.save();
         return savedShare.shareId;
     }catch(error){
@@ -41,3 +44,14 @@ export const getSharedBrainContentService = async (shareId: string) => {
         throw error;
     }   
 }
+
+
+// Function to generate a random string with bcrypt
+const generateRandomString = (length: number) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};

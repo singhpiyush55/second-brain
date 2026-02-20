@@ -10,10 +10,15 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         if (!token) {
             return res.status(401).send({ message: "No token provided" });
         }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+        const JWT_SECRET = process.env.JWT_SECRET;
+        if (!JWT_SECRET) {
+            throw new Error("JWT_SECRET not defined");
+        }
+        const decoded = jwt.verify(token, JWT_SECRET);
         (req as any).user = decoded;
         next();
     } catch (error) {
+        console.error("Authentication error:", error);
         return res.status(401).send({ message: "Invalid token" });
     }
 };
