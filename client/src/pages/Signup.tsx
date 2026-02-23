@@ -50,7 +50,7 @@ export default function Signup() {
               Start building your digital knowledge base. Save what matters, organize effortlessly.
             </p>
           </div>
-          <p style={styles.brandFooter}>Join thousands of knowledge enthusiasts.</p>
+          <p style={styles.brandFooter}>Join the Arena.</p>
         </div>
 
         {/* Right form */}

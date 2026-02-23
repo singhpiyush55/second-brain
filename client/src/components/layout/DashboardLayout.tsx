@@ -21,8 +21,7 @@ export default function DashboardLayout() {
       </div>
 
       {isOpen && <CreateBrainModal onClose={() => setIsOpen(false)} />}
-      {isAddContentOpen && (
-        <AddContentModal onClose={() => setIsAddContentOpen(false)} />
+      {isAddContentOpen && (<AddContentModal onClose={() => setIsAddContentOpen(false)} />
       )}
     </div>
   );

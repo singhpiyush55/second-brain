@@ -12,6 +12,7 @@ export default function Landing() {
             <span style={styles.logoText}>Second Brain</span>
           </div>
           <div style={styles.navLinks}>
+            <a href="/demo.html" target="_blank" rel="noopener noreferrer">Demo Cred</a>
             <Link to="/login" style={styles.navLink}>Log in</Link>
             <Link to="/signup" style={styles.navCta}>Get Started</Link>
           </div>
